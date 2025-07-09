@@ -1,3 +1,5 @@
+package ConsoleApp;
+
 import java.util.*;
 
 public class ContactManager {

@@ -1,3 +1,5 @@
+package ConsoleApp;
+
 public record ContactEntity(String name, String phoneNumber, String email) {
 
     @Override
