@@ -1,0 +1,18 @@
+package com.contactManager.service;
+
+import com.contactManager.entity.ContactEntity;
+import com.contactManager.repository.ContactRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ContactManagerService {
+
+    @Autowired
+    ContactRepository contactRepository;
+
+    public void saveNewContact(String name, String email, String phoneNumber) {
+        ContactEntity newContact = new ContactEntity(name, email, phoneNumber);
+        contactRepository.save(newContact);
+    }
+}
