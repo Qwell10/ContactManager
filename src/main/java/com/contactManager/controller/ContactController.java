@@ -1,6 +1,8 @@
 package com.contactManager.controller;
 
 import com.contactManager.dto.ContactDto;
+import com.contactManager.entity.ContactEntity;
+import com.contactManager.exception.ContactNotFoundException;
 import com.contactManager.exception.ErrorResponse;
 import com.contactManager.service.ContactManagerService;
 import jakarta.validation.Valid;
@@ -26,9 +28,21 @@ public class ContactController {
         return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Contact %s was saved.", contactName));
     }
 
+    @GetMapping("findContactByName/{name}")
+    public ResponseEntity<ContactEntity> findByName(@PathVariable String name) {
+        ContactEntity foundContact = contactManagerService.findByName(name);
+        return ResponseEntity.status(HttpStatus.OK).body(foundContact);
+    }
+
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+    }
+
+    @ExceptionHandler(value = ContactNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleContactNotFoundException(ContactNotFoundException e) {
+        return new ErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage());
     }
 }
