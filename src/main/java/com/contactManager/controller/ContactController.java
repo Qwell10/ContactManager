@@ -42,6 +42,12 @@ public class ContactController {
         return ResponseEntity.status(HttpStatus.OK).body(contactManagerService.getContacts());
     }
 
+    @DeleteMapping("/deleteContact/{name}")
+    public ResponseEntity<String> deleteContact(@PathVariable String name) {
+        ContactEntity foundContact = contactManagerService.deleteByName(name);
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Contact named: %s was removed", name));
+    }
+
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {

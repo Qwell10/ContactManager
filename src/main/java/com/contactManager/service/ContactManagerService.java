@@ -31,4 +31,10 @@ public class ContactManagerService {
         }
         return contacts;
     }
+
+    public ContactEntity deleteByName(String name) {
+        ContactEntity foundContact = findByName(name);
+        contactRepository.delete(foundContact);
+        return foundContact;
+    }
 }
