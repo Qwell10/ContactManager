@@ -4,6 +4,7 @@ import com.contactManager.dto.ContactDto;
 import com.contactManager.entity.ContactEntity;
 import com.contactManager.exception.ContactNotFoundException;
 import com.contactManager.exception.ErrorResponse;
+import com.contactManager.exception.NoContactFoundException;
 import com.contactManager.service.ContactManagerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/contact")
@@ -34,6 +37,11 @@ public class ContactController {
         return ResponseEntity.status(HttpStatus.OK).body(foundContact);
     }
 
+    @GetMapping("findContacts")
+    public ResponseEntity<List<ContactEntity>> getContacts() {
+        return ResponseEntity.status(HttpStatus.OK).body(contactManagerService.getContacts());
+    }
+
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
@@ -43,6 +51,12 @@ public class ContactController {
     @ExceptionHandler(value = ContactNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleContactNotFoundException(ContactNotFoundException e) {
+        return new ErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage());
+    }
+
+    @ExceptionHandler(value = NoContactFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleNoContactFoundException(NoContactFoundException e) {
         return new ErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage());
     }
 }
