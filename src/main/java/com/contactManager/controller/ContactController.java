@@ -1,6 +1,7 @@
 package com.contactManager.controller;
 
 import com.contactManager.dto.ContactDto;
+import com.contactManager.dto.ContactPatchDto;
 import com.contactManager.entity.ContactEntity;
 import com.contactManager.exception.ContactNotFoundException;
 import com.contactManager.exception.ErrorResponse;
@@ -29,6 +30,12 @@ public class ContactController {
         contactManagerService.saveNewContact(contactName, contactDto.getEmail(), contactDto.getPhoneNumber());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Contact %s was saved.", contactName));
+    }
+
+    @PatchMapping("/patchContact")
+    public ResponseEntity<ContactEntity> patchContact(@RequestBody ContactPatchDto dto) {
+        ContactEntity existingContact = contactManagerService.patchContact(dto);
+        return ResponseEntity.status(HttpStatus.OK).body(existingContact);
     }
 
     @GetMapping("findContactByName/{name}")
