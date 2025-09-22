@@ -1,7 +1,0 @@
-ConsoleApp\ContactEntity.class
-ConsoleApp\ContactManager.class
-com\contactManager\repository\ContactRepository.class
-com\contactManager\entity\ContactEntity.class
-ConsoleApp\Main.class
-com\contactManager\service\contactManagerService.class
-com\contactManager\ContactManagerApplication.class
