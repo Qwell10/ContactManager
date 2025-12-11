@@ -1,3 +1,4 @@
+C:\Users\planeo\Desktop\Java_projekty\ContactManager\backend\src\main\java\com\contactManager\config\WebServiceConfig.java
 C:\Users\planeo\Desktop\Java_projekty\ContactManager\backend\src\main\java\com\contactManager\ContactManagerApplication.java
 C:\Users\planeo\Desktop\Java_projekty\ContactManager\backend\src\main\java\com\contactManager\controller\ContactController.java
 C:\Users\planeo\Desktop\Java_projekty\ContactManager\backend\src\main\java\com\contactManager\dto\ContactDto.java
@@ -7,7 +8,16 @@ C:\Users\planeo\Desktop\Java_projekty\ContactManager\backend\src\main\java\com\c
 C:\Users\planeo\Desktop\Java_projekty\ContactManager\backend\src\main\java\com\contactManager\exception\ErrorResponse.java
 C:\Users\planeo\Desktop\Java_projekty\ContactManager\backend\src\main\java\com\contactManager\exception\NoContactFoundException.java
 C:\Users\planeo\Desktop\Java_projekty\ContactManager\backend\src\main\java\com\contactManager\repository\ContactRepository.java
-C:\Users\planeo\Desktop\Java_projekty\ContactManager\backend\src\main\java\com\contactManager\service\ContactManagerService.java
+C:\Users\planeo\Desktop\Java_projekty\ContactManager\backend\src\main\java\com\contactManager\service\ContactManagerInterface.java
+C:\Users\planeo\Desktop\Java_projekty\ContactManager\backend\src\main\java\com\contactManager\service\ContactManagerServiceImpl.java
+C:\Users\planeo\Desktop\Java_projekty\ContactManager\backend\src\main\java\com\contactManager\service\ContactManagerSoapImpl.java
+C:\Users\planeo\Desktop\Java_projekty\ContactManager\backend\src\main\java\com\contactManager\soap\gen\request\GetContactsRequest.java
+C:\Users\planeo\Desktop\Java_projekty\ContactManager\backend\src\main\java\com\contactManager\soap\gen\request\SaveNewContactRequest.java
+C:\Users\planeo\Desktop\Java_projekty\ContactManager\backend\src\main\java\com\contactManager\soap\gen\response\GetContactsResponse.java
+C:\Users\planeo\Desktop\Java_projekty\ContactManager\backend\src\main\java\com\contactManager\soap\gen\response\SaveNewContactResponse.java
 C:\Users\planeo\Desktop\Java_projekty\ContactManager\backend\src\main\java\ConsoleApp\ContactEntity.java
 C:\Users\planeo\Desktop\Java_projekty\ContactManager\backend\src\main\java\ConsoleApp\ContactManager.java
 C:\Users\planeo\Desktop\Java_projekty\ContactManager\backend\src\main\java\ConsoleApp\Main.java
+C:\Users\planeo\Desktop\Java_projekty\ContactManager\backend\target\generated-sources\jaxb\com\contactManager\soap\gen\Contact.java
+C:\Users\planeo\Desktop\Java_projekty\ContactManager\backend\target\generated-sources\jaxb\com\contactManager\soap\gen\ObjectFactory.java
+C:\Users\planeo\Desktop\Java_projekty\ContactManager\backend\target\generated-sources\jaxb\com\contactManager\soap\gen\package-info.java

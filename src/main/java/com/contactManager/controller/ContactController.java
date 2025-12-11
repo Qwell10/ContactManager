@@ -6,7 +6,7 @@ import com.contactManager.entity.ContactEntity;
 import com.contactManager.exception.ContactNotFoundException;
 import com.contactManager.exception.ErrorResponse;
 import com.contactManager.exception.NoContactFoundException;
-import com.contactManager.service.ContactManagerService;
+import com.contactManager.service.ContactManagerServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,37 +22,37 @@ import java.util.List;
 public class ContactController {
 
     @Autowired
-    private ContactManagerService contactManagerService;
+    private ContactManagerServiceImpl contactManagerServiceImpl;
 
     @PostMapping("/saveNewContact")
     public ResponseEntity<String> saveNewContact(@Valid @RequestBody ContactDto contactDto) {
         String contactName = contactDto.getName();
 
-        contactManagerService.saveNewContact(contactName, contactDto.getEmail(), contactDto.getPhoneNumber());
+        contactManagerServiceImpl.saveNewContact(contactName, contactDto.getEmail(), contactDto.getPhoneNumber());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Contact %s was saved.", contactName));
     }
 
     @PatchMapping("/patchContact")
     public ResponseEntity<ContactEntity> patchContact(@RequestBody ContactPatchDto dto) {
-        ContactEntity existingContact = contactManagerService.patchContact(dto);
+        ContactEntity existingContact = contactManagerServiceImpl.patchContact(dto);
         return ResponseEntity.status(HttpStatus.OK).body(existingContact);
     }
 
     @GetMapping("findContactByName/{name}")
     public ResponseEntity<ContactEntity> findByName(@PathVariable String name) {
-        ContactEntity foundContact = contactManagerService.findByName(name);
+        ContactEntity foundContact = contactManagerServiceImpl.findByName(name);
         return ResponseEntity.status(HttpStatus.OK).body(foundContact);
     }
 
     @GetMapping("findContacts")
     public ResponseEntity<List<ContactEntity>> getContacts() {
-        return ResponseEntity.status(HttpStatus.OK).body(contactManagerService.getContacts());
+        return ResponseEntity.status(HttpStatus.OK).body(contactManagerServiceImpl.getContacts());
     }
 
     @DeleteMapping("/deleteContact/{name}")
     public ResponseEntity<String> deleteContact(@PathVariable String name) {
-        ContactEntity foundContact = contactManagerService.deleteByName(name);
+        ContactEntity foundContact = contactManagerServiceImpl.deleteByName(name);
         return ResponseEntity.status(HttpStatus.OK).body(String.format("Contact named: %s was removed", name));
     }
 

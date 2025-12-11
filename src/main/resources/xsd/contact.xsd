@@ -1,0 +1,44 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://whereareyou/contacts"
+           xmlns:tns="http://whereareyou/contacts"
+           elementFormDefault="qualified">
+
+    <xs:complexType name="ContactDetails">
+        <xs:sequence>
+            <xs:element name="Name" type="xs:string" minOccurs="1"/>
+            <xs:element name="PhoneNumber" type="xs:string" minOccurs="0"/>
+            <xs:element name="Email" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="SaveNewContactRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="email" type="xs:string"/>
+                <xs:element name="phoneNumber" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="SaveNewContactResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="status" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="GetContactsRequest">
+        <xs:complexType/> </xs:element>
+
+    <xs:element name="GetContactsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="contact" type="tns:ContactDetails"
+                            minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
