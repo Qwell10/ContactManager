@@ -31,13 +31,50 @@
     </xs:element>
 
     <xs:element name="GetContactsRequest">
-        <xs:complexType/> </xs:element>
+        <xs:complexType/>
+    </xs:element>
 
     <xs:element name="GetContactsResponse">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="contact" type="tns:ContactDetails"
                             minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="FindByNameRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="FindByNameResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="contact" type="tns:ContactDetails" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+
+    </xs:element>
+
+    <xs:element name="PatchContactRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string" minOccurs="0"/>
+                <xs:element name="email" type="xs:string" minOccurs="0"/>
+                <xs:element name="phoneNumber" type="xs:string" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="PatchContactResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="status" type="xs:string"/>
+                <xs:element name="message" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
