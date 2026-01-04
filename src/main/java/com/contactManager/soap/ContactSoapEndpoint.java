@@ -1,14 +1,15 @@
 package com.contactManager.soap;
 
-import com.contactManager.dto.ContactDto;
+import com.contactManager.entity.ContactEntity;
 import com.contactManager.service.ContactManagerServiceImpl;
-import com.contactManager.soap.gen.SaveNewContactRequest;
-import com.contactManager.soap.gen.SaveNewContactResponse;
+import com.contactManager.soap.gen.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
+
+import java.util.List;
 
 @Endpoint
 public class ContactSoapEndpoint {
@@ -24,18 +25,53 @@ public class ContactSoapEndpoint {
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "SaveNewContactRequest")
     @ResponsePayload // <--- This ensures the return object becomes XML
     public SaveNewContactResponse saveNewContact(@RequestPayload SaveNewContactRequest request) {
+        SaveNewContactResponse response = new SaveNewContactResponse();
 
-        // 1. Extract data from the Request
-        ContactDto contactDto = new ContactDto(request.getName(), request.getEmail(), request.getPhoneNumber());
+        String name = request.getName();
+        String email = request.getEmail();
+        String phoneNumber = request.getPhoneNumber();
 
-        // 2. Call the service to save to Database
-        contactManagerService.saveNewContact(contactDto.getName(), contactDto.getEmail(), contactDto.getPhoneNumber());
+        if (name == null || name.isEmpty()) {
+            response.setStatus("FAILURE");
+            response.setMessage("Name cannot be empty");
+            return response;
+        }
 
-        // 3. Construct the Response object
-        SaveNewContactResponse saveNewContactResponse = new SaveNewContactResponse();
-        saveNewContactResponse.setStatus("SUCCESS");
-        saveNewContactResponse.setMessage("Contact saved successfully");
+        if (email == null || email.isEmpty()) {
+            response.setStatus("FAILURE");
+            response.setMessage("Email cannot be empty");
+            return response;
+        }
 
-        return saveNewContactResponse;
+        if (phoneNumber == null || phoneNumber.isEmpty()) {
+            response.setStatus("FAILURE");
+            response.setMessage("Phone number cannot be empty");
+            return response;
+        }
+
+        contactManagerService.saveNewContact(name, email, phoneNumber);
+        response.setStatus("SUCCESS");
+        response.setMessage("Contact saved successfully");
+
+        return response;
+    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetContactsRequest")
+    @ResponsePayload
+    public GetContactsResponse getContactsResponse(@RequestPayload GetContactsRequest request) {
+        GetContactsResponse response = new GetContactsResponse();
+
+        List<ContactEntity> contacts = contactManagerService.getContacts();
+
+        for (ContactEntity dbEntity : contacts) {
+            ContactDetails contact = new ContactDetails();
+            contact.setName(dbEntity.getName());
+            contact.setEmail(dbEntity.getEmail());
+            contact.setPhoneNumber(dbEntity.getPhoneNumber());
+
+            response.getContact().add(contact);
+        }
+
+        return response;
     }
 }
