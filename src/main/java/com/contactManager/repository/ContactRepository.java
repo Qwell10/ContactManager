@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface ContactRepository extends JpaRepository<ContactEntity, Long> {
 
     Optional<ContactEntity> findByNameIgnoreCase(String name);
+    boolean existsByName(String name);
 }

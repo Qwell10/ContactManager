@@ -1,6 +1,7 @@
 package com.contactManager.soap;
 
 import com.contactManager.entity.ContactEntity;
+import com.contactManager.repository.ContactRepository;
 import com.contactManager.service.ContactManagerServiceImpl;
 import com.contactManager.soap.gen.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class ContactSoapEndpoint {
 
     @Autowired
     private ContactManagerServiceImpl contactManagerService;
+
+    @Autowired
+    private ContactRepository repository;
 
     //@RequestPayload: Translates XML → Java (so I can work with the data)
     //@ResponsePayload: Translates Java → XML (so the client can read the result)
@@ -49,16 +53,22 @@ public class ContactSoapEndpoint {
             return response;
         }
 
-        contactManagerService.saveNewContact(name, email, phoneNumber);
-        response.setStatus("SUCCESS");
-        response.setMessage("Contact saved successfully");
+        if (!repository.existsByName(name)) {
 
+            contactManagerService.saveNewContact(name, email, phoneNumber);
+            response.setStatus("SUCCESS");
+            response.setMessage("Contact saved successfully");
+
+        } else {
+            response.setStatus("FAILURE");
+            response.setMessage(String.format("Contact %s already exists", name));
+        }
         return response;
     }
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetContactsRequest")
     @ResponsePayload
-    public GetContactsResponse getContactsResponse(@RequestPayload GetContactsRequest request) {
+    public GetContactsResponse getContacts(@RequestPayload GetContactsRequest request) {
         GetContactsResponse response = new GetContactsResponse();
 
         List<ContactEntity> contacts = contactManagerService.getContacts();
@@ -71,6 +81,24 @@ public class ContactSoapEndpoint {
 
             response.getContact().add(contact);
         }
+
+        return response;
+    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "FindByNameRequest")
+    @ResponsePayload
+    public FindByNameResponse findByName(@RequestPayload FindByNameRequest request) {
+        FindByNameResponse response = new FindByNameResponse();
+
+        ContactEntity contact = contactManagerService.findByName(request.getName());
+
+        ContactDetails soapContact = new ContactDetails();
+
+        soapContact.setName(contact.getName());
+        soapContact.setEmail(contact.getEmail());
+        soapContact.setPhoneNumber(contact.getPhoneNumber());
+
+        response.setContact(soapContact);
 
         return response;
     }
