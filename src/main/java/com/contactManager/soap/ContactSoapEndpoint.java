@@ -1,5 +1,6 @@
 package com.contactManager.soap;
 
+import com.contactManager.dto.ContactPatchDto;
 import com.contactManager.entity.ContactEntity;
 import com.contactManager.repository.ContactRepository;
 import com.contactManager.service.ContactManagerServiceImpl;
@@ -99,6 +100,25 @@ public class ContactSoapEndpoint {
         soapContact.setPhoneNumber(contact.getPhoneNumber());
 
         response.setContact(soapContact);
+
+        return response;
+    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "PatchContactRequest")
+    @ResponsePayload
+    public PatchContactResponse patchContact(@RequestPayload PatchContactRequest request) {
+        PatchContactResponse response = new PatchContactResponse();
+
+        ContactPatchDto contactDto = new ContactPatchDto();
+        contactDto.setName(request.getName());
+        contactDto.setNameToChange(request.getNameToChange());
+        contactDto.setEmail(request.getEmail());
+        contactDto.setPhoneNumber(request.getPhoneNumber());
+
+        contactManagerService.patchContact(contactDto);
+
+        response.setStatus("SUCCESS");
+        response.setMessage("Contact was updated");
 
         return response;
     }
